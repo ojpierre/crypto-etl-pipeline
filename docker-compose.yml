@@ -1,0 +1,19 @@
+services:
+  postgres_db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: dev123
+      POSTGRES_DB: crypto_db
+    ports:
+      - "5432:5432"
+
+  etl_pipeline:
+    build: .
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: dev123
+      DB_HOST: postgres_db
+      POSTGRES_DB: crypto_db
+    depends_on:
+      - postgres_db
